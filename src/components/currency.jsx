@@ -1,0 +1,85 @@
+import React, { Component } from 'react';
+
+class Currency extends Component{
+
+  state = {};
+
+  constructor(props){
+    super(props);
+    this.state.value = props.value || '';
+    this.state.placeholder = props.placeholder || 'enter amount';
+  }
+
+  handleOnChange = (e) => {
+    const value = e.target.value;
+
+    const masked = this.maskInput(value);
+
+    this.setState({value: masked})
+    this.props.updateField(masked);
+
+
+
+  };
+
+  handleOnBlur = (e) => {
+    const value = e.target.value;
+    const split = value.split('.');
+
+    if(typeof split[1] !== 'undefined'){
+      if(split[1].length === 0){
+        const newValue = e.target.value.replace('.','')
+        this.setState({value: newValue});
+        this.props.updateField(newValue);
+      }
+      else if (split[1].length === 1){
+        const newValue = e.target.value + '0';
+        this.setState({value: newValue})
+        this.props.updateField(newValue);
+      }
+    }
+  }
+
+  maskInput = (value) => {
+    value = value.replace(/[^0-9.]/g,'');
+
+    const parts = value.split('.').reduce((accum,e) => {
+      if(accum.length === 0){
+        accum.push(e);
+      }
+      else{
+        accum[1] = (accum[1] || '.') + e;
+      }
+      return accum;
+    },[]);
+
+    const parts1 = parts[0];
+    let parts2 = parts[1];
+    const newValue = parts1.split('').reverse().map((e,i) => {
+      if(i >0 && i%3 === 0){
+        return e + ',';
+      }
+      return e;
+    }).reverse().join('');
+    if(!parts2) return newValue;
+    parts2 = parts2.substr(0,3);
+    return newValue + parts2;
+
+  };
+
+
+  render(){
+    return(
+      <React.Fragment>
+        <input type ="text"
+               placeholder={this.state.placeholder}
+               value={this.state.value}
+               onChange={this.handleOnChange}
+               onBlur={this.handleOnBlur}
+        />
+      </React.Fragment>
+    )
+  }
+}
+
+export default Currency;
