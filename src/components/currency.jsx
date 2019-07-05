@@ -41,17 +41,14 @@ class Currency extends Component{
   }
 
   maskInput = (value) => {
+    const periodSplitter = '.'
     value = value.replace(/[^0-9.]/g,'');
+    const firstPeriodIdx = value.indexOf(periodSplitter);
+    if(firstPeriodIdx > -1){
+      value = value.substr(0,firstPeriodIdx) + '.' + value.substr(firstPeriodIdx+1).replace(/\./g,'');
+    }
 
-    const parts = value.split('.').reduce((accum,e) => {
-      if(accum.length === 0){
-        accum.push(e);
-      }
-      else{
-        accum[1] = (accum[1] || '.') + e;
-      }
-      return accum;
-    },[]);
+    const parts = value.split(periodSplitter);
 
     const parts1 = parts[0];
     let parts2 = parts[1];
@@ -61,8 +58,9 @@ class Currency extends Component{
       }
       return e;
     }).reverse().join('');
-    if(!parts2) return newValue;
-    parts2 = parts2.substr(0,3);
+    if(typeof parts2 === 'undefined') return newValue;
+
+    parts2 = periodSplitter + parts2.substr(0,2);
     return newValue + parts2;
 
   };
