@@ -21,7 +21,7 @@ class View1 extends Component{
 
   onSubmit = () => {
     this.props.history.push('/view2');
-  }
+  };
 
   render(){
     const topStyle={
@@ -29,7 +29,7 @@ class View1 extends Component{
     };
 
     return(
-      <React.Fragment>
+      <div class="page">
         <div style={topStyle} className="row">
           <div className="small-12 columns medium-8 medium-centered">
             <h3>View 1</h3>
@@ -40,7 +40,7 @@ class View1 extends Component{
             <a className="button" onClick={this.onSubmit}>Submit</a>
           </div>
         </div>
-      </React.Fragment>
+      </div>
     )
   }
 };

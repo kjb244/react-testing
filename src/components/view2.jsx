@@ -19,13 +19,17 @@ class View2 extends Component{
     this.setState({amount: e});
   };
 
+  onSubmit = () => {
+    this.props.history.push('/view1');
+  };
+
   render(){
     const topStyle={
       marginTop: '20px'
     };
 
     return(
-      <React.Fragment>
+      <div class="page">
         <div style={topStyle} className="row">
           <div className="small-12 columns medium-8 medium-centered">
             <h3>View 2</h3>
@@ -33,10 +37,10 @@ class View2 extends Component{
 
             <input type="text" placeholder="last name" value={this.state.lastName} onChange={this.lastNameChange}/>
             <Currency placeholder='enter an amount' value='' updateField = {this.updateAmount}/>
-            <a className="button">Submit</a>
+            <a className="button" onClick={this.onSubmit}>Submit</a>
           </div>
         </div>
-      </React.Fragment>
+      </div>
     )
   }
 };
