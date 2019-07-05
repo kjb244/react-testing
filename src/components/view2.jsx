@@ -29,7 +29,7 @@ class View2 extends Component{
     };
 
     return(
-      <div class="page">
+      <div className="page">
         <div style={topStyle} className="row">
           <div className="small-12 columns medium-8 medium-centered">
             <h3>View 2</h3>
