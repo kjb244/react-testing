@@ -6,7 +6,8 @@ class Currency extends Component{
 
   constructor(props){
     super(props);
-    this.state.value = props.value || '';
+    const value = props.value || '';
+    this.state.value = value.length === 0 ? value : this.maskInput(value);
     this.state.placeholder = props.placeholder || 'enter amount';
   }
 
@@ -38,14 +39,15 @@ class Currency extends Component{
         this.props.updateField(newValue);
       }
     }
-  }
+  };
 
   maskInput = (value) => {
-    const periodSplitter = '.'
+    const periodSplitter = '.';
+    const currencySign = '$';
     value = value.replace(/[^0-9.]/g,'');
     const firstPeriodIdx = value.indexOf(periodSplitter);
     if(firstPeriodIdx > -1){
-      value = value.substr(0,firstPeriodIdx) + '.' + value.substr(firstPeriodIdx+1).replace(/\./g,'');
+      value = value.substr(0,firstPeriodIdx) + periodSplitter + value.substr(firstPeriodIdx+1).replace(/\./g,'');
     }
 
     const parts = value.split(periodSplitter);
@@ -58,10 +60,10 @@ class Currency extends Component{
       }
       return e;
     }).reverse().join('');
-    if(typeof parts2 === 'undefined') return newValue;
+    if(typeof parts2 === 'undefined') return currencySign + newValue;
 
     parts2 = periodSplitter + parts2.substr(0,2);
-    return newValue + parts2;
+    return currencySign + newValue + parts2;
 
   };
 
