@@ -20,7 +20,7 @@ class View2 extends Component{
   };
 
   onSubmit = () => {
-    this.props.history.push('/view1');
+    this.props.history.push('/view3');
   };
 
   render(){
