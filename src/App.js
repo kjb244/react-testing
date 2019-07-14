@@ -5,13 +5,31 @@ import {CSSTransition, TransitionGroup} from 'react-transition-group';
 import View1 from './components/view1';
 import View2 from './components/view2';
 import View3 from './components/view3';
+import { connect } from 'react-redux';
 
 
-class App extends Component{
-  render(){
+class App extends Component {
+
+
+
+  render() {
     return(
       <BrowserRouter>
         <div className="app">
+          <ul className="hide">
+            <li>
+              <Link to="/">Home</Link>
+            </li>
+            <li>
+              <Link to="/view1">About</Link>
+            </li>
+            <li>
+              <Link to="/view2">Topics</Link>
+            </li>
+            <li>
+              <Link to="/view3">Topics</Link>
+            </li>
+          </ul>
           <Route render={ ({location}) => {
             return (
               <TransitionGroup>
@@ -34,4 +52,18 @@ class App extends Component{
   }
 }
 
-export default App;
+  const mapStateToProps =state => {
+    return{
+      age: state.age
+    }
+  };
+
+  const mapDispatchToProps = dispatch => {
+    return {
+      onAgeUp: ()=> dispatch({type: 'AGE_UP', value: 1}),
+      onAgeDown: () => dispatch({type: 'AGE_DOWN', value: 1})
+    }
+  };
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

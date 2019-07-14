@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import Currency from './currency';
+import Buttons from './buttons';
+
 class View2 extends Component{
   state = {
     firstName: '',
@@ -23,6 +25,10 @@ class View2 extends Component{
     this.props.history.push('/view3');
   };
 
+  getState = () =>{
+    return {...this.state}
+  };
+
   render(){
     const topStyle={
       marginTop: '20px'
@@ -37,7 +43,7 @@ class View2 extends Component{
 
             <input type="text" placeholder="last name" value={this.state.lastName} onChange={this.lastNameChange}/>
             <Currency placeholder='enter an amount' value='' updateField = {this.updateAmount}/>
-            <a className="button" onClick={this.onSubmit}>Submit</a>
+            <Buttons formData={this.getState()}/>
           </div>
         </div>
       </div>

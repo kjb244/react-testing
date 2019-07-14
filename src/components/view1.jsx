@@ -1,11 +1,27 @@
 import React, { Component } from 'react';
 import Currency from './currency';
+import Buttons from './buttons';
+import { connect } from 'react-redux';
+
 class View1 extends Component{
   state = {
     firstName: '',
     lastName: '',
     amount: ''
   };
+
+  constructor(props){
+    super(props);
+    const { currView, routeMapping } = this.props;
+    if(currView && routeMapping[currView]){
+
+      Object.keys(routeMapping[currView].formData).map((e) => {
+        if(e in this.state){
+          this.state[e] = routeMapping[currView].formData[e];
+        }
+      });
+    }
+  }
 
   firstNameChange = (e) => {
     this.setState({firstName: e.target.value});
@@ -19,6 +35,11 @@ class View1 extends Component{
     this.setState({amount: e});
   };
 
+
+  getState = () =>{
+    return {...this.state}
+  };
+
   onSubmit = () => {
     this.props.history.push('/view2');
   };
@@ -29,6 +50,7 @@ class View1 extends Component{
     };
 
     return(
+
       <div className="page">
         <div style={topStyle} className="row">
           <div className="small-12 columns medium-8 medium-centered">
@@ -36,13 +58,22 @@ class View1 extends Component{
             <input type="text" placeholder="first name" value={this.state.firstName} onChange={this.firstNameChange}/>
 
             <input type="text" placeholder="last name" value={this.state.lastName} onChange={this.lastNameChange}/>
-            <Currency placeholder='enter an amount' value='' updateField = {this.updateAmount}/>
-            <a className="button" onClick={this.onSubmit}>Submit</a>
+            <Currency placeholder='enter an amount' value={this.state.amount} updateField = {this.updateAmount}/>
+            <Buttons formData={this.getState()}/>
           </div>
         </div>
+
       </div>
     )
   }
 };
 
-export default View1;
+const mapStateToProps =state => {
+  return{
+    routes: state.routes,
+    currView: state.currView,
+    routeMapping: state.routeMapping
+  }
+};
+export default connect(mapStateToProps)(View1);
+

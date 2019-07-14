@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import '../css/view3.css';
 import {CSSTransition, TransitionGroup} from 'react-transition-group';
+import Buttons from './buttons';
+
 
 class View3 extends Component{
   state = {
@@ -24,6 +26,9 @@ class View3 extends Component{
     this.setState({todoItems: newArr, todoText: ''});
   };
 
+  getState = () =>{
+    return {...this.state}
+  };
 
 
 
@@ -49,12 +54,13 @@ class View3 extends Component{
                   <div key={i} className="item row">
                     <div style={{display: 'flex', justifyContent: 'space-between'}} className="small-12 medium-11 medium-centered columns">
                       <div>{e}</div>
-                      <button className="button alert small" onClick={(e) => this.deleteItem(i)}>Delete</button>
                     </div>
                   </div>
                 </CSSTransition>
               )}
               </TransitionGroup>
+              <Buttons formData={this.getState()}/>
+
             </div>
           </div>
         </div>
